@@ -23,7 +23,7 @@ data "vsphere_resource_pool" "pool" {
 }
 
 data "vsphere_network" "network" {
-  name          = "public"
+  name          = "353-Public"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
