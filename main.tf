@@ -9,16 +9,16 @@ provider "vsphere" {
 }
 
 data "vsphere_datacenter" "dc" {
-  name = "dc1"
+  name = "157.201.228.240"
 }
 
 data "vsphere_datastore" "datastore" {
-  name          = "datastore1"
+  name          = "CITF700"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_resource_pool" "pool" {
-  name          = "cluster1/Resources"
+  name          = "157.201.228.103"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -28,7 +28,7 @@ data "vsphere_network" "network" {
 }
 
 resource "vsphere_virtual_machine" "vm" {
-  name             = "terraform-test"
+  name             = "terraformed_vm"
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
 
