@@ -1,6 +1,6 @@
 # Configure the VMware vSphere Provider
 provider "vsphere" {
-  user           = "toddgunn"
+  user           = "toddgunn@VSPHERE.LOCAL"
   password       = "p1p1n5THeG8tentert@iner"
   vsphere_server = "157.201.228.240" 
 
@@ -8,17 +8,23 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
+
 data "vsphere_datacenter" "dc" {
-  name = "157.201.228.240"
+  name = "CIT"
 }
 
-data "vsphere_datastore" "datastore" {
+data "vsphere_datastore_cluster" "datastore_cluster" {
   name          = "CITF700"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+data "vsphere_compute_cluster" "compute_cluster" {
+  name          = "UCS-A"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
 data "vsphere_resource_pool" "pool" {
-  name          = "157.201.228.103"
+  name          = data.vsphere_compute_cluster.compute_cluster.id
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -27,14 +33,18 @@ data "vsphere_network" "network" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+data "vsphere_folder" "folder" {
+    path = "CIT-Intern"
+}
+
 resource "vsphere_virtual_machine" "vm" {
   name             = "terraformed_vm"
   resource_pool_id = data.vsphere_resource_pool.pool.id
-  datastore_id     = data.vsphere_datastore.datastore.id
+  datastore_id     = data.vsphere_datastore_cluster.datastore_cluster.id
 
   num_cpus = 2
-  memory   = 1024
-  guest_id = "other3xLinux64Guest"
+  memory   = 2048
+  guest_id = "ubuntu64Guest"
 
   network_interface {
     network_id = data.vsphere_network.network.id
@@ -43,5 +53,10 @@ resource "vsphere_virtual_machine" "vm" {
   disk {
     label = "disk0"
     size  = 20
+  }
+
+  cdrom {
+    datastore_id = data.vsphere_datacenter.dc.id
+    path = "UCS ESXi v101 - SMIF700/!-ISOs/CIT112/ubuntu-20.04.2.0-desktop-amd64.iso"
   }
 }
