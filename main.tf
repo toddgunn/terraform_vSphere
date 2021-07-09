@@ -23,11 +23,6 @@ data "vsphere_compute_cluster" "compute_cluster" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-data "vsphere_resource_pool" "pool" {
-  name          = data.vsphere_compute_cluster.compute_cluster.id
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
 data "vsphere_network" "network" {
   name          = "353-Public"
   datacenter_id = data.vsphere_datacenter.dc.id
@@ -39,7 +34,7 @@ data "vsphere_folder" "folder" {
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "terraformed_vm"
-  resource_pool_id = data.vsphere_resource_pool.pool.id
+  resource_pool_id = data.vsphere_compute_cluster.compute_cluster.id
   datastore_id     = data.vsphere_datastore_cluster.datastore_cluster.id
 
   num_cpus = 2
