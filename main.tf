@@ -1,13 +1,12 @@
-# Configure the VMware vSphere Provider
+# Configure the VMware vSphere provider
 provider "vsphere" {
   user           = "toddgunn@VSPHERE.LOCAL"
   password       = "p1p1n5THeG8tentert@iner"
   vsphere_server = "157.201.228.240" 
 
-  # if you have a self-signed cert
+  # If you have a self-signed cert
   allow_unverified_ssl = true
 }
-
 
 data "vsphere_datacenter" "dc" {
   name = "CIT"
@@ -34,7 +33,7 @@ data "vsphere_folder" "folder" {
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "terraformed_vm"
-  resource_pool_id = data.vsphere_compute_cluster.compute_cluster.id
+  resource_pool_id = data.vsphere_compute_cluster.compute_cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore_cluster.datastore_cluster.id
 
   num_cpus = 2
