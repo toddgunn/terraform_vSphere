@@ -23,7 +23,7 @@ data "vsphere_compute_cluster" "compute_cluster" {
 }
 
 data "vsphere_network" "network" {
-  name          = "353-Public"
+  name          = "353-Public" // Reads multiple 353-Public. One network and one distributed port group
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
