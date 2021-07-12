@@ -1,8 +1,8 @@
 # Configure the VMware vSphere provider
 provider "vsphere" {
-  user           = "toddgunn@VSPHERE.LOCAL"
-  password       = "p1p1n5THeG8tentert@iner"
-  vsphere_server = "157.201.228.240" 
+  user           = ""
+  password       = ""
+  vsphere_server = "" 
 
   # If you have a self-signed cert
   allow_unverified_ssl = true
