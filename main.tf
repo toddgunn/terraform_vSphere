@@ -28,10 +28,8 @@ data "vsphere_compute_cluster" "compute_cluster" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-// There's an error that occurs when using 353-Public. It can't tell if you want the network or the distributed 
-//port group
 data "vsphere_network" "network" {
-  name          = "353-S1-Team1"
+  name          = "CIT/CITdvSwitch/353-Public"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
