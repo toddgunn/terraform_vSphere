@@ -1,8 +1,8 @@
 # Configure the VMware vSphere provider
 provider "vsphere" {
-  user           = ""
-  password       = ""
-  vsphere_server = "" 
+  user           = "toddgunn@VSPHERE.LOCAL"
+  password       = "p1p1n5THeG8tentert@iner"
+  vsphere_server = "157.201.228.240" 
 
   # If you have a self-signed cert
   allow_unverified_ssl = true
@@ -38,7 +38,9 @@ data "vsphere_folder" "folder" {
 resource "vsphere_virtual_machine" "vm" {
   name             = "terraformed_vm"
   resource_pool_id = data.vsphere_compute_cluster.compute_cluster.resource_pool_id
-  datastore_id     = data.vsphere_datastore_cluster.datastore_cluster.id
+  datastore_cluster_id     = data.vsphere_datastore_cluster.datastore_cluster.id
+
+  wait_for_guest_net_timeout = 0
 
   num_cpus = 2
   memory   = 2048
