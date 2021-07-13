@@ -17,16 +17,20 @@ data "vsphere_datastore_cluster" "datastore_cluster" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+// Assigns a random host to UCS-A
 data "vsphere_compute_cluster" "compute_cluster" {
   name          = "UCS-A"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+// There's an error that occurs when using 353-Public. It can't tell if you want the network or the distributed 
+//port group
 data "vsphere_network" "network" {
-  name          = "353-Public" // Reads multiple 353-Public. One network and one distributed port group
+  name          = "353-S1-Team1"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+// Doesn't put the vm in the CIT-Intern folder, instead it places it inside of CIT
 data "vsphere_folder" "folder" {
     path = "CIT-Intern"
 }
@@ -49,8 +53,9 @@ resource "vsphere_virtual_machine" "vm" {
     size  = 20
   }
 
-  cdrom {
+// There's an issue with the path variable
+ /* cdrom {
     datastore_id = data.vsphere_datacenter.dc.id
     path = "UCS ESXi v101 - SMIF700/!-ISOs/CIT112/ubuntu-20.04.2.0-desktop-amd64.iso"
-  }
+  }*/
 }
